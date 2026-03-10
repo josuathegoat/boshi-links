@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Boshi.AI — AI-Powered Websites & Apps</title>
+  <meta name="description" content="I build AI-powered websites & apps for creators. From zero to freedom — documenting the journey." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #0A0A0A;
+      --blue: #3B82F6;
+      --blue-dim: rgba(59, 130, 246, 0.15);
+      --blue-glow: rgba(59, 130, 246, 0.35);
+      --white: #FFFFFF;
+      --muted: rgba(255, 255, 255, 0.45);
+      --subtle: rgba(255, 255, 255, 0.06);
+      --border: rgba(255, 255, 255, 0.08);
+    }
+
+    html, body {
+      min-height: 100%;
+      background-color: var(--bg);
+      color: var(--white);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Animated background ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(59, 130, 246, 0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 40% at 80% 110%, rgba(59, 130, 246, 0.07) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+      animation: bgPulse 8s ease-in-out infinite alternate;
+    }
+
+    @keyframes bgPulse {
+      0%   { opacity: 0.7; }
+      100% { opacity: 1; }
+    }
+
+    /* ── Page layout ── */
+    .page {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 56px 20px 48px;
+      animation: fadeIn 0.9s ease both;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .container {
+      width: 100%;
+      max-width: 480px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+
+    /* ── Avatar ── */
+    .avatar {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #1e3a5f 0%, #1d4ed8 100%);
+      border: 2.5px solid rgba(59, 130, 246, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -0.02em;
+      box-shadow: 0 0 32px rgba(59, 130, 246, 0.3), 0 0 0 6px rgba(59, 130, 246, 0.06);
+      animation: avatarPop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+      flex-shrink: 0;
+    }
+
+    @keyframes avatarPop {
+      from { opacity: 0; transform: scale(0.7); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    /* ── Profile text ── */
+    .profile {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .profile-name {
+      font-size: 1.55rem;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      color: var(--white);
+      line-height: 1.2;
+    }
+
+    .profile-tagline {
+      margin-top: 8px;
+      font-size: 0.95rem;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.75);
+      line-height: 1.5;
+    }
+
+    .profile-sub {
+      margin-top: 6px;
+      font-size: 0.78rem;
+      font-weight: 400;
+      color: var(--muted);
+      letter-spacing: 0.01em;
+    }
+
+    /* ── Divider ── */
+    .divider {
+      width: 40px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--blue), transparent);
+      border-radius: 2px;
+      margin: 28px 0;
+      opacity: 0.6;
+    }
+
+    /* ── Links ── */
+    .links {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .link-btn {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
+      padding: 15px 20px;
+      background: var(--subtle);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      color: var(--white);
+      text-decoration: none;
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition:
+        transform 0.2s cubic-bezier(0.34, 1.4, 0.64, 1),
+        box-shadow 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease;
+      animation: linkSlide 0.6s ease both;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .link-btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      opacity: 0;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, transparent 100%);
+      transition: opacity 0.2s ease;
+    }
+
+    .link-btn:hover {
+      transform: scale(1.025) translateY(-1px);
+      background: rgba(59, 130, 246, 0.1);
+      border-color: rgba(59, 130, 246, 0.4);
+      box-shadow: 0 0 20px rgba(59, 130, 246, 0.22), 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .link-btn:hover::after {
+      opacity: 1;
+    }
+
+    .link-btn:active {
+      transform: scale(0.985);
+    }
+
+    /* Stagger animation for links */
+    .link-btn:nth-child(1) { animation-delay: 0.15s; }
+    .link-btn:nth-child(2) { animation-delay: 0.22s; }
+    .link-btn:nth-child(3) { animation-delay: 0.29s; }
+    .link-btn:nth-child(4) { animation-delay: 0.36s; }
+    .link-btn:nth-child(5) { animation-delay: 0.43s; }
+    .link-btn:nth-child(6) { animation-delay: 0.50s; }
+    .link-btn:nth-child(7) { animation-delay: 0.57s; }
+
+    @keyframes linkSlide {
+      from { opacity: 0; transform: translateX(-12px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    .link-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      background: var(--blue-dim);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--blue);
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .link-btn:hover .link-icon {
+      background: rgba(59, 130, 246, 0.25);
+    }
+
+    .link-icon svg {
+      width: 17px;
+      height: 17px;
+      fill: currentColor;
+    }
+
+    .link-text {
+      flex: 1;
+      text-align: left;
+      position: relative;
+      z-index: 1;
+    }
+
+    .link-arrow {
+      color: var(--muted);
+      flex-shrink: 0;
+      transition: color 0.2s ease, transform 0.2s ease;
+      position: relative;
+      z-index: 1;
+    }
+
+    .link-btn:hover .link-arrow {
+      color: var(--blue);
+      transform: translateX(2px);
+    }
+
+    /* ── Footer ── */
+    .footer {
+      margin-top: 40px;
+      text-align: center;
+    }
+
+    .footer-cta {
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .footer-cta a {
+      color: var(--blue);
+      text-decoration: none;
+      font-weight: 500;
+      transition: opacity 0.2s;
+    }
+
+    .footer-cta a:hover {
+      opacity: 0.8;
+    }
+
+    .footer-built {
+      margin-top: 10px;
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+    }
+
+    .footer-built a {
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-built a:hover {
+      color: rgba(255, 255, 255, 0.65);
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="container">
+
+      <!-- Avatar -->
+      <div class="avatar">B.</div>
+
+      <!-- Profile -->
+      <div class="profile">
+        <div class="profile-name">Boshi.AI</div>
+        <div class="profile-tagline">I build AI-powered websites &amp; apps for creators</div>
+        <div class="profile-sub">From zero to freedom — documenting the journey</div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Links -->
+      <nav class="links" aria-label="Links">
+
+        <!-- 1. Watch me build -->
+        <a class="link-btn" href="#" aria-label="Watch me build a $5K site in 60 min">
+          <span class="link-icon">
+            <!-- Play triangle -->
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M8 5.14v14l11-7-11-7z"/>
+            </svg>
+          </span>
+          <span class="link-text">Watch me build a $5K site in 60 min</span>
+          <span class="link-arrow" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </span>
+        </a>
+
+        <!-- 2. Portfolio -->
+        <a class="link-btn" href="https://fitness-coach-website-dusky.vercel.app/" target="_blank" rel="noopener noreferrer" aria-label="Portfolio — Fitness Coach Website">
+          <span class="link-icon">
+            <!-- Globe -->
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+            </svg>
+          </span>
+          <span class="link-text">Portfolio — Fitness Coach Website</span>
+          <span class="link-arrow" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </span>
+        </a>
+
+        <!-- 3. Instagram -->
+        <a class="link-btn" href="https://instagram.com/boshi.ai" target="_blank" rel="noopener noreferrer" aria-label="Instagram — @boshi.ai">
+          <span class="link-icon">
+            <!-- Camera -->
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+            </svg>
+          </span>
+          <span class="link-text">Instagram — @boshi.ai</span>
+          <span class="link-arrow" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </span>
+        </a>
+
+        <!-- 4. TikTok -->
+        <a class="link-btn" href="https://tiktok.com/@boshi.ai" target="_blank" rel="noopener noreferrer" aria-label="TikTok — @boshi.ai">
+          <span class="link-icon">
+            <!-- Music note -->
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+            </svg>
+          </span>
+          <span class="link-text">TikTok — @boshi.ai</span>
+          <span class="link-arrow" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </span>
+        </a>
+
+        <!-- 5. YouTube -->
+        <a class="link-btn" href="#" aria-label="YouTube — @boshiai">
+          <span class="link-icon">
+            <!-- Play circle (YouTube-style) -->
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M21.58 7.19c-.23-.86-.91-1.54-1.77-1.77C18.25 5 12 5 12 5s-6.25 0-7.81.42c-.86.23-1.54.91-1.77 1.77C2 8.75 2 12 2 12s0 3.25.42 4.81c.23.86.91 1.54 1.77 1.77C5.75 19 12 19 12 19s6.25 0 7.81-.42c.86-.23 1.54-.91 1.77-1.77C22 15.25 22 12 22 12s0-3.25-.42-4.81zM10 15V9l5.2 3-5.2 3z"/>
+            </svg>
+          </span>
+          <span class="link-text">YouTube — @boshiai</span>
+          <span class="link-arrow" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </span>
+        </a>
+
+        <!-- 6. X (Twitter) -->
+        <a class="link-btn" href="#" aria-label="X (Twitter)">
+          <span class="link-icon">
+            <!-- X logo -->
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+          </span>
+          <span class="link-text">X (Twitter)</span>
+          <span class="link-arrow" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </span>
+        </a>
+
+        <!-- 7. Facebook -->
+        <a class="link-btn" href="#" aria-label="Facebook — Boshi.AI">
+          <span class="link-icon">
+            <!-- Thumbs up -->
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/>
+            </svg>
+          </span>
+          <span class="link-text">Facebook — Boshi.AI</span>
+          <span class="link-arrow" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </span>
+        </a>
+
+      </nav>
+
+      <!-- Footer -->
+      <footer class="footer">
+        <p class="footer-cta">
+          Want an AI-built website?
+          <a href="https://instagram.com/boshi.ai" target="_blank" rel="noopener noreferrer">DM me on Instagram.</a>
+        </p>
+        <p class="footer-built">
+          Built with AI by
+          <a href="https://instagram.com/boshi.ai" target="_blank" rel="noopener noreferrer">@boshi.ai</a>
+        </p>
+      </footer>
+
+    </div>
+  </main>
+</body>
+</html>
