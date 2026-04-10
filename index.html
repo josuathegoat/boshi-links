@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Boshi.AI — AI-Powered Websites & Apps</title>
-  <meta name="description" content="I build AI-powered websites & apps for creators. From zero to freedom — documenting the journey." />
+  <title>Boshi.AI — AI-Powered Websites, Voice Agents & Automation</title>
+  <meta name="description" content="AI-powered websites, voice agents, and automation for coaches, creators, and service businesses. From zero to freedom." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
@@ -18,9 +18,9 @@
 
     :root {
       --bg: #0A0A0A;
-      --blue: #3B82F6;
-      --blue-dim: rgba(59, 130, 246, 0.15);
-      --blue-glow: rgba(59, 130, 246, 0.35);
+      --blue: #00A29D;
+      --blue-dim: rgba(0, 162, 157, 0.15);
+      --blue-glow: rgba(0, 162, 157, 0.35);
       --white: #FFFFFF;
       --muted: rgba(255, 255, 255, 0.45);
       --subtle: rgba(255, 255, 255, 0.06);
@@ -41,8 +41,8 @@
       position: fixed;
       inset: 0;
       background:
-        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(59, 130, 246, 0.12) 0%, transparent 70%),
-        radial-gradient(ellipse 60% 40% at 80% 110%, rgba(59, 130, 246, 0.07) 0%, transparent 60%);
+        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(0, 162, 157, 0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 40% at 80% 110%, rgba(0, 162, 157, 0.07) 0%, transparent 60%);
       pointer-events: none;
       z-index: 0;
       animation: bgPulse 8s ease-in-out infinite alternate;
@@ -84,8 +84,8 @@
       width: 96px;
       height: 96px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #1e3a5f 0%, #1d4ed8 100%);
-      border: 2.5px solid rgba(59, 130, 246, 0.5);
+      background: linear-gradient(135deg, #006663 0%, #00A29D 100%);
+      border: 2.5px solid rgba(0, 162, 157, 0.5);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -93,7 +93,7 @@
       font-weight: 700;
       color: var(--white);
       letter-spacing: -0.02em;
-      box-shadow: 0 0 32px rgba(59, 130, 246, 0.3), 0 0 0 6px rgba(59, 130, 246, 0.06);
+      box-shadow: 0 0 32px rgba(0, 162, 157, 0.3), 0 0 0 6px rgba(0, 162, 157, 0.06);
       animation: avatarPop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
       flex-shrink: 0;
     }
@@ -182,15 +182,15 @@
       inset: 0;
       border-radius: inherit;
       opacity: 0;
-      background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, transparent 100%);
+      background: linear-gradient(135deg, rgba(0, 162, 157, 0.08) 0%, transparent 100%);
       transition: opacity 0.2s ease;
     }
 
     .link-btn:hover {
       transform: scale(1.025) translateY(-1px);
-      background: rgba(59, 130, 246, 0.1);
-      border-color: rgba(59, 130, 246, 0.4);
-      box-shadow: 0 0 20px rgba(59, 130, 246, 0.22), 0 4px 20px rgba(0, 0, 0, 0.4);
+      background: rgba(0, 162, 157, 0.1);
+      border-color: rgba(0, 162, 157, 0.4);
+      box-shadow: 0 0 20px rgba(0, 162, 157, 0.22), 0 4px 20px rgba(0, 0, 0, 0.4);
     }
 
     .link-btn:hover::after {
@@ -209,6 +209,7 @@
     .link-btn:nth-child(5) { animation-delay: 0.43s; }
     .link-btn:nth-child(6) { animation-delay: 0.50s; }
     .link-btn:nth-child(7) { animation-delay: 0.57s; }
+    .link-btn:nth-child(8) { animation-delay: 0.64s; }
 
     @keyframes linkSlide {
       from { opacity: 0; transform: translateX(-12px); }
@@ -229,7 +230,7 @@
     }
 
     .link-btn:hover .link-icon {
-      background: rgba(59, 130, 246, 0.25);
+      background: rgba(0, 162, 157, 0.25);
     }
 
     .link-icon svg {
@@ -308,7 +309,7 @@
       <!-- Profile -->
       <div class="profile">
         <div class="profile-name">Boshi.AI</div>
-        <div class="profile-tagline">I build AI-powered websites &amp; apps for creators</div>
+        <div class="profile-tagline">AI websites, voice agents &amp; automation for coaches, creators &amp; service businesses</div>
         <div class="profile-sub">From zero to freedom — documenting the journey</div>
       </div>
 
@@ -318,14 +319,28 @@
       <nav class="links" aria-label="Links">
 
         <!-- 1. Portfolio -->
-        <a class="link-btn" href="https://fitness-coach-website-dusky.vercel.app/" target="_blank" rel="noopener noreferrer" aria-label="Portfolio — Fitness Coach Website">
+        <a class="link-btn" href="https://boshi-portfolio.vercel.app" target="_blank" rel="noopener noreferrer" aria-label="Portfolio — See My Work">
           <span class="link-icon">
             <!-- Globe -->
             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
             </svg>
           </span>
-          <span class="link-text">Portfolio — Fitness Coach Website</span>
+          <span class="link-text">Portfolio — See My Work</span>
+          <span class="link-arrow" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </span>
+        </a>
+
+        <!-- 2. Discord Community -->
+        <a class="link-btn" href="https://discord.gg/XhpKfHnS" target="_blank" rel="noopener noreferrer" aria-label="Join the Discord Community">
+          <span class="link-icon">
+            <!-- Chat/Community -->
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.947 2.418-2.157 2.418z"/>
+            </svg>
+          </span>
+          <span class="link-text">Join the Community — Free Discord</span>
           <span class="link-arrow" aria-hidden="true">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
           </span>
@@ -406,8 +421,8 @@
       <!-- Footer -->
       <footer class="footer">
         <p class="footer-cta">
-          Want an AI-built website?
-          <a href="https://instagram.com/boshi.ai" target="_blank" rel="noopener noreferrer">DM me on Instagram.</a>
+          Want an AI-powered website or voice agent?
+          <a href="https://discord.gg/XhpKfHnS" target="_blank" rel="noopener noreferrer">Join the free community.</a>
         </p>
         <p class="footer-built">
           Built with AI by
