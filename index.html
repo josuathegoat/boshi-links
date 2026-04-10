@@ -36,7 +36,7 @@
       overflow-x: hidden;
     }
 
-    /* ====== GRAIN — real noise texture ====== */
+    /* ====== GRAIN ====== */
     .grain {
       position: fixed;
       inset: -50%;
@@ -57,25 +57,36 @@
       100% { transform: translate(2%, 1%); }
     }
 
-    /* ====== ATMOSPHERE — nature bleeding through ====== */
-    .atmosphere {
+    /* ====== GLOBE BACKGROUND ====== */
+    .globe-wrap {
       position: fixed;
-      inset: 0;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: min(90vw, 600px);
+      height: min(90vw, 600px);
       z-index: 0;
       pointer-events: none;
-      background:
-        radial-gradient(ellipse 120% 80% at 30% -20%, var(--forest) 0%, transparent 60%),
-        radial-gradient(ellipse 80% 60% at 90% 110%, rgba(20, 35, 15, 0.25) 0%, transparent 50%),
-        radial-gradient(circle at 50% 50%, rgba(232, 184, 0, 0.02) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 2s ease;
     }
 
-    /* ====== VIGNETTE ====== */
+    .globe-wrap.loaded {
+      opacity: 0.12;
+    }
+
+    .globe-wrap canvas {
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    /* ====== VIGNETTE over globe ====== */
     .vignette {
       position: fixed;
       inset: 0;
       z-index: 1;
       pointer-events: none;
-      background: radial-gradient(ellipse 70% 60% at 50% 50%, transparent 0%, var(--bg) 100%);
+      background: radial-gradient(ellipse 65% 55% at 50% 50%, transparent 0%, var(--bg) 100%);
     }
 
     /* ====== PAGE ====== */
@@ -213,6 +224,8 @@
       cursor: pointer;
       transition: all 0.2s ease;
       position: relative;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
     }
 
     .link:hover {
@@ -250,9 +263,7 @@
       fill: currentColor;
     }
 
-    .link-label {
-      flex: 1;
-    }
+    .link-label { flex: 1; }
 
     .link-go {
       color: rgba(240, 237, 230, 0.15);
@@ -282,7 +293,12 @@
 </head>
 <body>
   <div class="grain"></div>
-  <div class="atmosphere"></div>
+
+  <!-- COBE GLOBE — ambient background -->
+  <div class="globe-wrap" id="globe-container">
+    <canvas id="globe-canvas"></canvas>
+  </div>
+
   <div class="vignette"></div>
 
   <main class="page">
@@ -304,16 +320,6 @@
       <div class="rule"></div>
 
       <nav class="links">
-
-        <a class="link" href="https://boshi-portfolio.vercel.app" target="_blank" rel="noopener noreferrer">
-          <span class="link-ico">
-            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-          </span>
-          <span class="link-label">Portfolio</span>
-          <span class="link-go">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-          </span>
-        </a>
 
         <a class="link" href="https://discord.gg/XhpKfHnS" target="_blank" rel="noopener noreferrer">
           <span class="link-ico">
@@ -383,5 +389,52 @@
 
     </div>
   </main>
+
+  <!-- COBE globe — vanilla JS, no React needed -->
+  <script type="module">
+    import createGlobe from 'https://cdn.skypack.dev/cobe';
+
+    const canvas = document.getElementById('globe-canvas');
+    const container = document.getElementById('globe-container');
+
+    if (canvas && container) {
+      const width = container.offsetWidth;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      let phi = 0;
+
+      // Munster, Germany — where Boshi is built
+      const markers = [
+        { location: [52.0, 7.63], size: 0.06 },  // Munster
+        { location: [51.96, 7.63], size: 0.03 },  // Greven (nearby)
+      ];
+
+      const globe = createGlobe(canvas, {
+        devicePixelRatio: dpr,
+        width: width * dpr,
+        height: width * dpr,
+        phi: 0,
+        theta: 0.35,
+        dark: 1,
+        diffuse: 1.2,
+        mapSamples: 16000,
+        mapBrightness: 3,
+        baseColor: [0.15, 0.15, 0.12],
+        markerColor: [0.91, 0.72, 0],
+        glowColor: [0.08, 0.08, 0.06],
+        markers: markers,
+        opacity: 0.85,
+        onRender: (state) => {
+          state.phi = phi;
+          phi += 0.002;
+        }
+      });
+
+      // Fade in after load
+      setTimeout(() => container.classList.add('loaded'), 300);
+
+      // Cleanup
+      window.addEventListener('beforeunload', () => globe.destroy());
+    }
+  </script>
 </body>
 </html>
