@@ -60,19 +60,24 @@
     /* ====== GLOBE BACKGROUND ====== */
     .globe-wrap {
       position: fixed;
-      top: 50%;
+      top: 45%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: min(90vw, 600px);
-      height: min(90vw, 600px);
+      width: min(95vw, 700px);
+      height: min(95vw, 700px);
       z-index: 0;
-      pointer-events: none;
+      pointer-events: auto;
       opacity: 0;
-      transition: opacity 2s ease;
+      transition: opacity 1.5s ease;
+      cursor: grab;
+    }
+
+    .globe-wrap:active {
+      cursor: grabbing;
     }
 
     .globe-wrap.loaded {
-      opacity: 0.12;
+      opacity: 0.7;
     }
 
     .globe-wrap canvas {
@@ -86,7 +91,7 @@
       inset: 0;
       z-index: 1;
       pointer-events: none;
-      background: radial-gradient(ellipse 65% 55% at 50% 50%, transparent 0%, var(--bg) 100%);
+      background: radial-gradient(ellipse 80% 70% at 50% 45%, transparent 0%, var(--bg) 100%);
     }
 
     /* ====== PAGE ====== */
@@ -401,38 +406,73 @@
       const width = container.offsetWidth;
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       let phi = 0;
+      let pointerDown = null;
+      let dragPhi = 0;
+      let phiOffset = 0;
+      let velocity = 0;
 
-      // Munster, Germany — where Boshi is built
+      // German cities — Boshi's market
       const markers = [
-        { location: [52.0, 7.63], size: 0.06 },  // Munster
-        { location: [51.96, 7.63], size: 0.03 },  // Greven (nearby)
+        { location: [52.0, 7.63], size: 0.08 },   // Munster (home)
+        { location: [51.96, 7.63], size: 0.04 },   // Greven
+        { location: [52.52, 13.405], size: 0.05 },  // Berlin
+        { location: [48.137, 11.576], size: 0.05 },  // Munich
+        { location: [50.937, 6.96], size: 0.05 },   // Cologne
+        { location: [53.551, 9.993], size: 0.05 },   // Hamburg
+        { location: [50.11, 8.68], size: 0.05 },    // Frankfurt
       ];
+
+      // Drag interaction
+      canvas.addEventListener('pointerdown', (e) => {
+        pointerDown = e.clientX;
+        canvas.style.cursor = 'grabbing';
+      });
+
+      window.addEventListener('pointermove', (e) => {
+        if (pointerDown !== null) {
+          const delta = e.clientX - pointerDown;
+          dragPhi = delta / 200;
+          velocity = delta * 0.0001;
+        }
+      });
+
+      window.addEventListener('pointerup', () => {
+        if (pointerDown !== null) {
+          phiOffset += dragPhi;
+          dragPhi = 0;
+          pointerDown = null;
+          canvas.style.cursor = 'grab';
+        }
+      });
 
       const globe = createGlobe(canvas, {
         devicePixelRatio: dpr,
         width: width * dpr,
         height: width * dpr,
         phi: 0,
-        theta: 0.35,
+        theta: 0.3,
         dark: 1,
-        diffuse: 1.2,
-        mapSamples: 16000,
-        mapBrightness: 3,
-        baseColor: [0.15, 0.15, 0.12],
-        markerColor: [0.91, 0.72, 0],
-        glowColor: [0.08, 0.08, 0.06],
+        diffuse: 1.8,
+        mapSamples: 20000,
+        mapBrightness: 5,
+        baseColor: [0.2, 0.2, 0.17],
+        markerColor: [0.95, 0.75, 0],
+        glowColor: [0.12, 0.11, 0.08],
         markers: markers,
-        opacity: 0.85,
+        opacity: 0.9,
         onRender: (state) => {
-          state.phi = phi;
-          phi += 0.002;
+          if (pointerDown === null) {
+            phi += 0.003;
+            velocity *= 0.95;
+            phiOffset += velocity;
+          }
+          state.phi = phi + phiOffset + dragPhi;
         }
       });
 
-      // Fade in after load
-      setTimeout(() => container.classList.add('loaded'), 300);
+      // Fade in
+      setTimeout(() => container.classList.add('loaded'), 200);
 
-      // Cleanup
       window.addEventListener('beforeunload', () => globe.destroy());
     }
   </script>
